@@ -1,8 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
-const sequelize = new Sequelize('user_management', 'root', null, {
-    host: 'localhost',
-    dialect: 'mysql'
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'postgres'
 });
 
 const User = sequelize.define('User', {
