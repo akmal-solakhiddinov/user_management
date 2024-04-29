@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 
-export const API_BASE_URL = "http://127.0.0.1:4100/api";
+export const API_BASE_URL = "https://user-management-l3wm.onrender.com/api";
 
 const initialState = {
   user: null,
