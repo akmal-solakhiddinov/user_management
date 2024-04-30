@@ -18,9 +18,7 @@ function UsersTable() {
         userStatus,
       });
       getAllUsers();
-    } catch (error) {
-      console.error("Error updating user status:", error);
-    }
+    } catch (error) {}
   };
 
   const handleDeleteUsers = async () => {
@@ -30,9 +28,7 @@ function UsersTable() {
         usersId: checkedUsers,
       });
       getAllUsers();
-    } catch (error) {
-      console.error("Error deleting users:", error);
-    }
+    } catch (error) {}
   };
 
   return (

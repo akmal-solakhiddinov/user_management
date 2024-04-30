@@ -122,7 +122,7 @@ exports.login = async (req, res) => {
         res.status(200).json({ status: 'Success', user: user, token: token });
     } catch (error) {
         if (error.message === 'blocked') {
-            res.status(401).json({ error: 'User account is blocked', userStatus: 'blocked' });
+            res.status(401).send({ error: 'User account is blocked', userStatus: 'blocked' });
         } else {
             res.status(401).json({ error: 'Authentication failed' });
         }

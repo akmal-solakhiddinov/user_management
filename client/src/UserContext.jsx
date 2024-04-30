@@ -5,7 +5,7 @@ export const API_BASE_URL = "https://user-management-l3wm.onrender.com/api";
 const initialState = {
   user: null,
   isLogin: false,
-  isLoading: false, // Change isLoading to true initially
+  isLoading: false,
   error: "",
   users: [],
 };
@@ -68,12 +68,13 @@ function UserProvider({ children }) {
       body: JSON.stringify(body),
     };
 
-    const response = await fetch(url, options);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    const res = await fetch(url, options);
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error);
     }
 
-    return response.json();
+    return res.json();
   }
 
   const getAllUsers = async () => {
@@ -86,24 +87,23 @@ function UserProvider({ children }) {
     }
   };
 
+  const getUserInfo = async () => {
+    dispatch({ type: "loading" });
+    try {
+      const res = await fetchAPI(`${API_BASE_URL}/user`);
+      dispatch({ type: "fetch/user", payload: res });
+    } catch (error) {
+      dispatch({ type: "error", payload: error.message });
+    }
+  };
   useEffect(() => {
-    const getUserInfo = async () => {
-      dispatch({ type: "loading" });
-      try {
-        const res = await fetchAPI(`${API_BASE_URL}/user`);
-        dispatch({ type: "fetch/user", payload: res });
-      } catch (error) {
-        dispatch({ type: "error", payload: error.message });
-      }
-    };
-
     if (localStorage.getItem("token")) {
       getUserInfo();
       getAllUsers();
     }
-  }, []);
+  }, [state.isLogin]);
 
-  const value = { state, dispatch, fetchAPI, getAllUsers };
+  const value = { state, dispatch, fetchAPI, getAllUsers, getUserInfo };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }

@@ -4,11 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 function Login() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
   const { fetchAPI, dispatch, state } = useUserContext();
   const navigate = useNavigate();
 
@@ -21,8 +17,7 @@ function Login() {
         payload: res,
       });
     } catch (error) {
-      dispatch({ type: "error", payload: error });
-      console.error("Error signing up:", error);
+      dispatch({ type: "error", payload: error.message });
     }
   };
 
@@ -39,6 +34,11 @@ function Login() {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        {state.error && (
+          <div className="mb-3 w-9/12 rounded-md bg-red-400 p-2 text-base text-red-100">
+            {state.error}
+          </div>
+        )}
         <form className="space-y-6" onSubmit={handleSubmit(handleLogin)}>
           <div>
             <label
@@ -82,8 +82,9 @@ function Login() {
 
           <div>
             <button
+              disabled={state.isLoading}
               type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-indigo-400"
             >
               Login
             </button>
