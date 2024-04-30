@@ -40,7 +40,7 @@ const reducers = (state, action) => {
       return { ...state, isLoading: false, error: "", users: payload };
 
     case "loading":
-      return { ...state, isLoading: true };
+      return { ...state, isLoading: true, error: "" };
     case "error":
       return { ...state, error: payload, isLoading: false };
     default:

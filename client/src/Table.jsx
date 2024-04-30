@@ -5,9 +5,16 @@ import { FaLock, FaTrash, FaUnlock } from "react-icons/fa";
 function UsersTable() {
   const { fetchAPI, state, getAllUsers } = useUserContext();
   const [checkedUsers, setCheckedUsers] = useState([]);
+  const [all, setAll] = useState(false);
 
   const handleChecked = (id) => {
-    setCheckedUsers((prev) => [...prev, id]);
+    setCheckedUsers((prev) => {
+      if (prev.includes(id)) {
+        return prev.filter((userId) => userId !== id);
+      } else {
+        return [...prev, id];
+      }
+    });
   };
 
   const handleStatus = async (userStatus) => {
@@ -29,6 +36,18 @@ function UsersTable() {
       });
       getAllUsers();
     } catch (error) {}
+  };
+
+  const handleSelectAll = () => {
+    setAll((prev) => !prev);
+    if (!all) {
+      const usersId = state.users.map((item) => item.id);
+      // If not all users are currently selected, select all
+      setCheckedUsers(usersId);
+    } else {
+      // If all users are currently selected, deselect all
+      setCheckedUsers([]);
+    }
   };
 
   return (
@@ -59,9 +78,14 @@ function UsersTable() {
       <div className="h-full w-full rounded-sm border border-gray-300">
         <div className="grid grid-cols-[50px,1fr,1fr,1fr,150px] items-center divide-x divide-gray-300 border-b text-center">
           <label className="flex items-center justify-center">
-            <div className="flex h-5 w-5 items-center justify-center rounded-l-sm border border-gray-300">
-              --
-            </div>
+            <input
+              type="checkbox"
+              className="flex h-5 w-5 items-center justify-center rounded-l-sm border border-gray-300"
+              checked={all}
+              onChange={() => {
+                handleSelectAll();
+              }}
+            />
           </label>
           <div>
             <h1 className="font-medium capitalize">Name</h1>
@@ -79,7 +103,11 @@ function UsersTable() {
             }`}
           >
             <label className="flex items-center justify-center">
-              <input type="checkbox" onChange={() => handleChecked(user.id)} />
+              <input
+                type="checkbox"
+                onChange={() => handleChecked(user.id)}
+                checked={checkedUsers.includes(user.id)}
+              />
             </label>
             <div>
               <h1 className="font-medium capitalize">{user.name}</h1>

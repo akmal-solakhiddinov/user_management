@@ -3,7 +3,7 @@ import { useUserContext, API_BASE_URL } from "./UserContext";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-function Login() {
+function SignUp() {
   const { register, handleSubmit } = useForm();
   const { fetchAPI, dispatch, state } = useUserContext();
   const navigate = useNavigate();
@@ -18,9 +18,14 @@ function Login() {
         payload: { user: response?.user, token: response?.token },
       });
     } catch (error) {
-      dispatch({ type: "error", payload: error });
+      dispatch({ type: "error", payload: error.message });
     }
   };
+
+  useEffect(() => {
+    // Clear error state when navigating to the signup page
+    dispatch({ type: "error", payload: "" });
+  }, []);
 
   useEffect(() => {
     if (state.isLogin) navigate("/");
@@ -28,13 +33,17 @@ function Login() {
 
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+      {state.isLoading && (
+        <div className="mr-auto max-w-screen-sm rounded-md bg-blue-400 px-3 py-1 text-sm text-blue-50">
+          we are using free trial from render,{" "}
+          <strong className="text-base">sometimes</strong> respone may delay
+        </div>
+      )}
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           Sign Up to new Account
         </h2>
       </div>
-
-      {state?.user?.name}
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         {state.error && (
@@ -146,4 +155,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignUp;

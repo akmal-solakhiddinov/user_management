@@ -22,11 +22,23 @@ function Login() {
   };
 
   useEffect(() => {
+    // Clear error state when navigating to the signup page
+    dispatch({ type: "error", payload: "" });
+  }, []);
+
+  useEffect(() => {
     if (state.isLogin) navigate("/");
   }, [state.isLogin]);
 
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+      {state.isLoading && (
+        <div className="mr-auto max-w-screen-sm rounded-md bg-blue-400 px-3 py-1 text-sm text-blue-50">
+          we are using free trial from render,{" "}
+          <strong className="text-base">sometimes</strong> respone may delay
+        </div>
+      )}
+
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           Login
