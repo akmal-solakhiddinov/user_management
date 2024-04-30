@@ -9,7 +9,7 @@ function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (state.isLogin) navigate("/");
+    if (!state.isLoading && !state.isLogin) navigate("/login");
   }, [state.isLogin]);
 
   return (
