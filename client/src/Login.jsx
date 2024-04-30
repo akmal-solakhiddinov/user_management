@@ -95,7 +95,7 @@ function Login() {
           Don't have an Account ? &nbsp;
           <Link
             to="/signup"
-            className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+            className="text-base font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >
             Sign Up
           </Link>
