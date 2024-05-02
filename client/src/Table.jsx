@@ -3,7 +3,7 @@ import { useUserContext, API_BASE_URL } from "./UserContext";
 import { FaLock, FaTrash, FaUnlock } from "react-icons/fa";
 
 function UsersTable() {
-  const { fetchAPI, state, getAllUsers } = useUserContext();
+  const { fetchAPI, state, getAllUsers, getUserInfo } = useUserContext();
   const [checkedUsers, setCheckedUsers] = useState([]);
   const [all, setAll] = useState(false);
 
@@ -25,6 +25,7 @@ function UsersTable() {
         userStatus,
       });
       getAllUsers();
+      getUserInfo();
     } catch (error) {}
   };
 

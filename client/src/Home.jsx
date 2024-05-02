@@ -1,16 +1,23 @@
 import React, { useEffect } from "react";
 import UsersTable from "./Table";
 import Navbar from "./Navbar";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import { useUserContext } from "./UserContext";
 
 function Home() {
-  const { state } = useUserContext();
+  const { state, dispatch } = useUserContext();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!state.isLoading && !state.isLogin) navigate("/login");
+    if (!state.isLogin) navigate("/login");
   }, [state.isLogin]);
+
+  useEffect(() => {
+    if (state.isLogin && state?.user?.status === "blocked") {
+      dispatch({ type: "auth/logout" });
+      navigate("/login");
+    }
+  }, [state?.user?.status, state.isLogin]);
 
   return (
     <div>
