@@ -36,6 +36,7 @@ function UsersTable() {
         usersId: checkedUsers,
       });
       getAllUsers();
+      getUserInfo();
     } catch (error) {}
   };
 
